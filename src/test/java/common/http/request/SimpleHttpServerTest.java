@@ -56,6 +56,7 @@ public class SimpleHttpServerTest {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + PORT + "/simple"))
                 .GET()
+                .header("Content-Type", "text/plain")
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
