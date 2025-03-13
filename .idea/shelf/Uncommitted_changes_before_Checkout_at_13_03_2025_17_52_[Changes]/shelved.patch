@@ -1,0 +1,72 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n\txsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n\t<modelVersion>4.0.0</modelVersion>\r\n\t<parent>\r\n\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\r\n\t\t<version>3.3.8</version>\r\n\t\t<relativePath/> <!-- lookup parent from repository -->\r\n\t</parent>\r\n\t<groupId>common.http.request</groupId>\r\n\t<artifactId>http.request</artifactId>\r\n\t<version>0.0.1-SNAPSHOT</version>\r\n\t<name>contentTypeReader</name>\r\n\t<description>Sen any type of  request</description>\r\n\t<url/>\r\n\t<licenses>\r\n\t\t<license/>\r\n\t</licenses>\r\n\t<developers>\r\n\t\t<developer/>\r\n\t</developers>\r\n\t<scm>\r\n\t\t<connection/>\r\n\t\t<developerConnection/>\r\n\t\t<tag/>\r\n\t\t<url/>\r\n\t</scm>\r\n\t<properties>\r\n\t\t<java.version>17</java.version>\r\n\t</properties>\r\n\t<dependencies>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>com.fasterxml.jackson.dataformat</groupId>\r\n\t\t\t<artifactId>jackson-dataformat-cbor</artifactId>\r\n\t\t\t<version>2.12.0</version>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-test</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t\t<version> LATEST</version>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>junit</groupId>\r\n\t\t\t<artifactId>junit</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.junit.vintage</groupId>\r\n\t\t\t<artifactId>junit-vintage-engine</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.bouncycastle</groupId>\r\n\t\t\t<artifactId>bcprov-jdk15on</artifactId>\r\n\t\t\t<version>1.68</version>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.bouncycastle</groupId>\r\n\t\t\t<artifactId>bcpkix-jdk15on</artifactId>\r\n\t\t\t<version>1.68</version>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.projectlombok</groupId>\r\n\t\t\t<artifactId>lombok</artifactId>\r\n\t\t\t<scope>provided</scope>\r\n\t\t</dependency>\r\n\r\n\t</dependencies>\r\n\r\n\t<build>\r\n\t\t<plugins>\r\n\t\t\t<plugin>\r\n\t\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\r\n\t\t\t</plugin>\r\n\t\t</plugins>\r\n\t</build>\r\n\r\n</project>\r\n
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 6a0b4c2ab016aebf7ad0d8f7f41f169d061c3494)
++++ b/pom.xml	(date 1741880937168)
+@@ -30,47 +30,13 @@
+ 		<java.version>17</java.version>
+ 	</properties>
+ 	<dependencies>
+-		<dependency>
+-			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-web</artifactId>
+-		</dependency>
+-
+-		<dependency>
+-			<groupId>com.fasterxml.jackson.dataformat</groupId>
+-			<artifactId>jackson-dataformat-cbor</artifactId>
+-			<version>2.12.0</version>
+-		</dependency>
+-
+-		<dependency>
+-			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-test</artifactId>
+-			<scope>test</scope>
+-			<version> LATEST</version>
+-		</dependency>
+-
+ 		<dependency>
+ 			<groupId>junit</groupId>
+ 			<artifactId>junit</artifactId>
+ 			<scope>test</scope>
+ 		</dependency>
+ 
+-		<dependency>
+-			<groupId>org.junit.vintage</groupId>
+-			<artifactId>junit-vintage-engine</artifactId>
+-			<scope>test</scope>
+-		</dependency>
+-
+-		<dependency>
+-			<groupId>org.bouncycastle</groupId>
+-			<artifactId>bcprov-jdk15on</artifactId>
+-			<version>1.68</version>
+-		</dependency>
+-
+-		<dependency>
+-			<groupId>org.bouncycastle</groupId>
+-			<artifactId>bcpkix-jdk15on</artifactId>
+-			<version>1.68</version>
+-		</dependency>
++
+ 		<dependency>
+ 			<groupId>org.projectlombok</groupId>
+ 			<artifactId>lombok</artifactId>
+@@ -79,13 +45,6 @@
+ 
+ 	</dependencies>
+ 
+-	<build>
+-		<plugins>
+-			<plugin>
+-				<groupId>org.springframework.boot</groupId>
+-				<artifactId>spring-boot-maven-plugin</artifactId>
+-			</plugin>
+-		</plugins>
+-	</build>
++
+ 
+ </project>
