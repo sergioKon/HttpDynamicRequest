@@ -1,18 +1,15 @@
 package rest.mainServlet;
 
 // Java Program to Set up a Basic HTTP Server
-import com.sun.net.httpserver.Headers;
+
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpExchange;
-import common.http.request.MimeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
 

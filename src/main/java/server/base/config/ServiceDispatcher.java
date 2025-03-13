@@ -51,7 +51,7 @@ public class ServiceDispatcher {
     }
 
     @SneakyThrows
-    private void collect(File[] fileHandlers) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private void collect(File[] fileHandlers)  {
         for (File file: fileHandlers) {
             if(file.isDirectory()) {
                 collect(Objects.requireNonNull(file.listFiles()));

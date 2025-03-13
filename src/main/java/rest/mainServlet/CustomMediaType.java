@@ -389,20 +389,4 @@ public enum CustomMediaType {
 
         this.contentType = contentType;
     }
-
-    public static CustomMediaType getByExtension(String extension) {
-
-        CustomMediaType customMediaType = null;
-        if (extension != null && extension.length() > 2) {
-            for (CustomMediaType mt : CustomMediaType.values()) {
-
-                if (mt.name().equalsIgnoreCase(extension)) {
-                    customMediaType = mt;
-                    break;
-                }
-            }
-        }
-        return customMediaType;
-    }
-
 }
