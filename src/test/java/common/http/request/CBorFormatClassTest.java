@@ -40,7 +40,9 @@ public class CBorFormatClassTest {
         public boolean is_student;
 
 
-
+        public MyData() {
+            this("",0,true);
+        }
         public MyData(String name, int age, boolean is_student) {
             this.name = name;
             this.age = age;

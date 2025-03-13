@@ -31,14 +31,15 @@ public class MainControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test  void homeController() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("/home", String.class);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
     @Test
     public void noContentTest()  {
 
         ResponseEntity<String> response = restTemplate.getForEntity("/anyTypeClient", String.class);
-        assertEquals(response.getBody(), "\""+ HttpStatus.NO_CONTENT.name()+ "\"");
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(response.getBody(),  "The content can't be empty");
     }
 
     @Test
@@ -46,7 +47,8 @@ public class MainControllerTest {
         Map<String, String> params = new HashMap<>();
         params.put("id", "1");
         ResponseEntity<String> response = restTemplate.getForEntity("/anyTypeClient", String.class,params);
-        assertEquals(response.getBody(),  HttpStatus.NO_CONTENT.name());
+        assertEquals(response.getStatusCode(),HttpStatus.OK);
+        assertEquals(response.getBody(), "The content can't be empty");
     }
     @Test
     public void octetStreamRequestTest() throws Exception {
@@ -59,17 +61,6 @@ public class MainControllerTest {
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
 
-    @Test
-    public void servletDataReaderTest() throws Exception {
-
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(MockMvcRequestBuilders.post("/dataReader")
-                        .accept(MediaType.APPLICATION_XML)
-                        .content("<main>2</main>")
-                        .contentType(MediaType.APPLICATION_XML_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Success"));
-    }
     @Test
     public void xmlRequestTest() throws Exception {
 

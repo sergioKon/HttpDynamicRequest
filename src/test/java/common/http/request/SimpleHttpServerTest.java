@@ -50,7 +50,7 @@ public class SimpleHttpServerTest {
         assertEquals(200, response.statusCode());
         System.out.println(" response body = "+ response.body());
       //  assertEquals("Simple response!", response.body());
-        server.stop(0);
+
     }
     @Test
     void testHelloEndpoint() throws Exception {
@@ -63,6 +63,6 @@ public class SimpleHttpServerTest {
 
         assertEquals(200, response.statusCode());
         assertEquals("Simple response!", response.body());
-        server.stop(0);
+
     }
 }

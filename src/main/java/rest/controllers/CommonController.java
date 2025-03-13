@@ -31,20 +31,21 @@ public class CommonController {
 
     @RequestMapping(value = "/anyTypeClient")
     public String readData( HttpServletRequest request)  {
+
+
+         List<String> clientParams = Collections.list( request.getParameterNames());
+         for( String param : clientParams){
+             LOGGER.debug(" param = {}  value = {}", param, request.getParameter(param));
+         }
+
         String contentType=  request.getContentType();
         LOGGER.debug(" content type = {}", contentType);
-      //  if(contentType== null) {
-          List<String> clientParams = Collections.list( request.getParameterNames());
-          if(clientParams.isEmpty()){
-             return HttpStatus.NO_CONTENT.name();
-          }
-          for( String param : clientParams){
-              LOGGER.debug(" param = {}  value = {}", param, request.getParameter(param));
-          }
 
-        MediaType mediaType =   MediaType.valueOf(contentType);
-        HTTPAbstractHandler handler= ServiceDispatcher.getInstance().getService(mediaType);
-
+        if(contentType==null)  {
+           return "The content can't be empty";
+        }
+            MediaType mediaType = MediaType.valueOf(contentType);
+            HTTPAbstractHandler handler = ServiceDispatcher.getInstance().getService(mediaType);
         try {
             handler.proceed(request);
             return "Success";

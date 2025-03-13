@@ -11,7 +11,7 @@
 	<groupId>common.http.request</groupId>
 	<artifactId>http.request</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>http.request</name>
+	<name>contentTypeReader</name>
 	<description>Sen any type of  request</description>
 	<url/>
 	<licenses>
@@ -40,6 +40,7 @@
 			<artifactId>jackson-dataformat-cbor</artifactId>
 			<version>2.12.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
