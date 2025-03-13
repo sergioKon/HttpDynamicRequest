@@ -28,7 +28,7 @@ public class MainControllerTest {
     @Autowired
     WebApplicationContext webApplicationContext;
     @Autowired
-    private TestRestTemplate restTemplate;
+    TestRestTemplate restTemplate;
 
     @Test  void homeController() {
         ResponseEntity<String> response = restTemplate.getForEntity("/home", String.class);

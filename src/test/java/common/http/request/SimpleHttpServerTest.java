@@ -24,8 +24,7 @@ public class SimpleHttpServerTest {
     @BeforeAll
     static void setUp() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
-        server.createContext("/simple", SimpleHttpServer.getRootHandler());
-        server.createContext("/mime", SimpleHttpServer.getMimeHandler());
+        server.createContext("/mime", new SimpleHttpServer(PORT).getMimeHandler());
         server.setExecutor(null);
         server.start();
         client = HttpClient.newHttpClient();

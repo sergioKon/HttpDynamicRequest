@@ -3,10 +3,11 @@ package httpHandlers;
 import converters.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.MediaType;
+
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
+import rest.mainServlet.CustomMediaType;
 
 
 import java.io.IOException;
@@ -18,7 +19,8 @@ public class MultipartHandler extends HTTPAbstractHandler {
 
     @Override
     protected void InitMediaType() {
-        super.mediaType= MediaType.MULTIPART_FORM_DATA;
+
+        super.mediaType= CustomMediaType.MULTIPART_FORM_DATA;
     }
 
     @Override
@@ -28,17 +30,17 @@ public class MultipartHandler extends HTTPAbstractHandler {
                List<MultipartFile> files=  clientFiles.get(name);
                for(MultipartFile file : files) {
 
-                   if (mediaType == MediaType.APPLICATION_ATOM_XML) {
+                   if (mediaType == CustomMediaType.APPLICATION_XML) {
                        dataParser= new XMLParser();
-                   } else if ( mediaType== MediaType.APPLICATION_JSON ) {
+                   } else if ( mediaType== CustomMediaType.APPLICATION_JSON ) {
                        dataParser= new JSonParser();
-                   } else if (mediaType== MediaType.IMAGE_GIF) {
+                   } else if (mediaType== CustomMediaType.IMAGE_GIF) {
                        dataParser= new GifParser();
                    }
-                   else if (mediaType== MediaType.IMAGE_JPEG) {
+                   else if (mediaType== CustomMediaType.IMAGE_JPEG) {
                        dataParser= new GifParser();
                    }
-                   else if (mediaType== MediaType.IMAGE_PNG) {
+                   else if (mediaType== CustomMediaType.IMAGE_PNG) {
                        dataParser= new PgnParser();
                    }
                    else {

@@ -2,6 +2,8 @@ package common.http.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,8 +15,10 @@ public class CBorFormatClassTest {
             ObjectMapper objectMapper = new ObjectMapper(new CBORFactory());
 
             // Original data
-            MyData data = new MyData("John", 30, false);
-
+            MyData data = new MyData();
+            data.setName("John");
+            data.setAge(30);
+            data.setStudent(false);
             // Encode to CBOR
             byte[] cborData = objectMapper.writeValueAsBytes(data);
             System.out.println("Encoded CBOR: " + bytesToHex(cborData));
@@ -34,27 +38,23 @@ public class CBorFormatClassTest {
         }
 }
 
+     @Getter @Setter
      class MyData {
-        public String name;
-        public int age;
-        public boolean is_student;
-
+        private String name;
+        private  int age;
+        private  boolean isStudent;
 
         public MyData() {
-            this("",0,true);
+
         }
-        public MyData(String name, int age, boolean is_student) {
-            this.name = name;
-            this.age = age;
-            this.is_student = is_student;
-        }
+
 
         @Override
         public String toString() {
             return "MyData{" +
                     "name='" + name + '\'' +
                     ", age=" + age +
-                    ", is_student=" + is_student +
+                    ", isStudent=" + isStudent +
                     '}';
         }
     }

@@ -4,7 +4,8 @@ package httpHandlers;
 import converters.DataParser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
-import org.springframework.http.MediaType;
+import rest.mainServlet.CustomMediaType;
+
 
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ public abstract class HTTPAbstractHandler {
 
 
     @Getter
-    protected MediaType mediaType;
+    protected CustomMediaType mediaType;
     protected  DataParser dataParser = null;
 
     public HTTPAbstractHandler() {

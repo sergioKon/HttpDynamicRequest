@@ -1,7 +1,9 @@
-package httpHandlers;
+package httpHandlers.text;
 
+import httpHandlers.HTTPAbstractHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.MediaType;
+import rest.mainServlet.CustomMediaType;
+
 
 import java.io.IOException;
 
@@ -20,6 +22,6 @@ public class XMLHandler extends HTTPAbstractHandler {
 
     @Override
     protected void InitMediaType() {
-        super.mediaType= MediaType.APPLICATION_XML;
+        super.mediaType= CustomMediaType.APPLICATION_XML;
     }
 }

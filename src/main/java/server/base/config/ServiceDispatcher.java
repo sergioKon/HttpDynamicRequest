@@ -1,12 +1,17 @@
 package server.base.config;
 
 import httpHandlers.HTTPAbstractHandler;
-import org.springframework.http.MediaType;
+import lombok.SneakyThrows;
+import rest.mainServlet.CustomMediaType;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ServiceDispatcher {
 
@@ -14,7 +19,7 @@ public class ServiceDispatcher {
         private static  final ServiceDispatcher  instance = new ServiceDispatcher();
     }
 
-     private final Map<MediaType, HTTPAbstractHandler>  mapServices = new HashMap<>();
+     private final Map<CustomMediaType, HTTPAbstractHandler>  mapServices = new HashMap<>();
      protected String baseHandlerPackage="httpHandlers";
 
 
@@ -31,8 +36,6 @@ public class ServiceDispatcher {
         }
     }
 
-
-
     protected void  setAllTypeHandlers() throws Exception{
 
            Class<?> baseClassPath= HTTPAbstractHandler.class;
@@ -44,18 +47,37 @@ public class ServiceDispatcher {
            if(fileHandlers ==null)  {
                throw  new IllegalAccessException(" folder for file is empty ");
            }
-           for (File file: fileHandlers) {
+        collect(fileHandlers);
+    }
 
-               Class<?> clazz = Class.forName(baseHandlerPackage + '.' + file.getName().substring(0, file.getName().length() - 6));
-               if(clazz.getName().contains("Abstract")) {
-                   continue;
-               }
-               HTTPAbstractHandler httpHandler = (HTTPAbstractHandler) clazz.getDeclaredConstructor().newInstance();
-               mapServices.put(httpHandler.getMediaType(), httpHandler);
+    @SneakyThrows
+    private void collect(File[] fileHandlers) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        for (File file: fileHandlers) {
+            if(file.isDirectory()) {
+                collect(Objects.requireNonNull(file.listFiles()));
             }
-        }
+            if (!file.getName().endsWith(".class")) {
+                continue;
+            }
 
-      public HTTPAbstractHandler getService(MediaType key){
+            int iStart= file.getAbsolutePath().indexOf(baseHandlerPackage);
+            String filePath = file.getCanonicalPath().substring(iStart);
+            filePath= filePath.replace(".class","").replace(File.separator,".");
+            Class<?> clazz = Class.forName(filePath);
+            boolean isAbstract = Modifier.isAbstract(clazz.getModifiers());
+            if(isAbstract && !clazz.isInterface() && !clazz.isEnum()) {
+                continue;
+            }
+            HTTPAbstractHandler httpHandler = (HTTPAbstractHandler) clazz.getDeclaredConstructor().newInstance();
+            mapServices.put(httpHandler.getMediaType(), httpHandler);
+         }
+    }
+
+    public HTTPAbstractHandler getService(CustomMediaType key){
          return mapServices.get(key);
       }
+    public Map<CustomMediaType, HTTPAbstractHandler>  getAll(){
+        return mapServices;
+    }
+
 }

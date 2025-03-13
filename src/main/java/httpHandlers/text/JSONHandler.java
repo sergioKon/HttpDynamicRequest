@@ -1,16 +1,18 @@
-package httpHandlers;
+package httpHandlers.text;
 
+import httpHandlers.HTTPAbstractHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.MediaType;
+import rest.mainServlet.CustomMediaType;
+
 
 import java.io.IOException;
 
 
-public class JSONHandler  extends  HTTPAbstractHandler{
+public class JSONHandler  extends HTTPAbstractHandler {
 
     @Override
     protected void InitMediaType() {
-        super.mediaType= MediaType.APPLICATION_JSON;
+        super.mediaType= CustomMediaType.APPLICATION_JSON;
     }
 
     @Override

@@ -1,9 +1,11 @@
-package httpHandlers;
+package httpHandlers.binary;
 
 
 import converters.StreamDataParser;
+import httpHandlers.HTTPAbstractHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.MediaType;
+import rest.mainServlet.CustomMediaType;
+
 
 import java.io.IOException;
 
@@ -12,7 +14,7 @@ public class OctetStreamHandler extends HTTPAbstractHandler {
 
     @Override
     protected void InitMediaType() {
-        super.mediaType= MediaType.APPLICATION_OCTET_STREAM;
+          super.mediaType= CustomMediaType.OCTET_STREAM;
     }
 
 

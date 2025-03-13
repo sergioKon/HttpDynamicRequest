@@ -7,9 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rest.mainServlet.CustomMediaType;
 import server.base.config.ServiceDispatcher;
 
 
@@ -44,7 +45,7 @@ public class CommonController {
         if(contentType==null)  {
            return "The content can't be empty";
         }
-            MediaType mediaType = MediaType.valueOf(contentType);
+            CustomMediaType mediaType = CustomMediaType.valueOf(contentType);
             HTTPAbstractHandler handler = ServiceDispatcher.getInstance().getService(mediaType);
         try {
             handler.proceed(request);
