@@ -1,8 +1,8 @@
 package converters;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 
 public class JpegParser extends DataParser {
-    private static final Logger logger = LoggerFactory.getLogger(JpegParser.class);
+    private static final Logger logger =  LogManager.getLogger(JpegParser.class);
     public JpegParser(){
         this.extension= ".jpeg";
         this.bufferSize= 1024;

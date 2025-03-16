@@ -1,7 +1,9 @@
 package rest.mainServlet;
 
 
+import lombok.Getter;
 
+@Getter
 public enum CustomMediaType {
 
     $323("text/h323"),
@@ -360,7 +362,7 @@ public enum CustomMediaType {
     xlsb("application/vnd.ms-excel.sheet.binary.macroEnabled.12"),
     xlsm("application/application/vnd.ms-excel.sheet.macroEnabled.12"),
     xlt("application/vnd.ms-excel"),
-    xml("application/xml"),
+
     xpi("application/x-install"),
     xpm("image/x-ImapX"),
     xsl("application/xml"),
@@ -376,14 +378,10 @@ public enum CustomMediaType {
     APPLICATION_XML("application/xml"),
     IMAGE_GIF("image/gif"),
     IMAGE_JPEG("image/jpeg"),
-    IMAGE_PNG("image/png");
-
+    IMAGE_PNG("image/png"),
+    TEXT_PLAIN("text/plain");
 
     public final String contentType;
-
-    public String getContentType() {
-        return this.contentType;
-    }
 
     CustomMediaType(String contentType) {
 

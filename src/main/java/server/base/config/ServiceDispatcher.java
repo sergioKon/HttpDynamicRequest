@@ -1,14 +1,13 @@
 package server.base.config;
 
 import httpHandlers.HTTPAbstractHandler;
-import lombok.SneakyThrows;
 import rest.mainServlet.CustomMediaType;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class ServiceDispatcher {
         try {
             setAllTypeHandlers();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -50,27 +49,43 @@ public class ServiceDispatcher {
         collect(fileHandlers);
     }
 
-    @SneakyThrows
+
     private void collect(File[] fileHandlers)  {
         for (File file: fileHandlers) {
-            if(file.isDirectory()) {
+            if (file.isDirectory()) {
                 collect(Objects.requireNonNull(file.listFiles()));
             }
             if (!file.getName().endsWith(".class")) {
                 continue;
             }
 
-            int iStart= file.getAbsolutePath().indexOf(baseHandlerPackage);
-            String filePath = file.getCanonicalPath().substring(iStart);
-            filePath= filePath.replace(".class","").replace(File.separator,".");
-            Class<?> clazz = Class.forName(filePath);
+            int iStart = file.getAbsolutePath().indexOf(baseHandlerPackage);
+            String filePath;
+            try {
+                filePath = file.getCanonicalPath().substring(iStart);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            filePath = filePath.replace(".class", "").replace(File.separator, ".");
+            Class<?> clazz = null;
+            try {
+                clazz = Class.forName(filePath);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             boolean isAbstract = Modifier.isAbstract(clazz.getModifiers());
-            if(isAbstract && !clazz.isInterface() && !clazz.isEnum()) {
+            if (isAbstract && !clazz.isInterface() && !clazz.isEnum()) {
                 continue;
             }
-            HTTPAbstractHandler httpHandler = (HTTPAbstractHandler) clazz.getDeclaredConstructor().newInstance();
+            HTTPAbstractHandler httpHandler = null;
+            try {
+                httpHandler = (HTTPAbstractHandler) clazz.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
             mapServices.put(httpHandler.getMediaType(), httpHandler);
-         }
+        }
     }
 
     public HTTPAbstractHandler getService(CustomMediaType key){

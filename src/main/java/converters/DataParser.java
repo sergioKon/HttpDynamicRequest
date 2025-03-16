@@ -1,8 +1,8 @@
 package converters;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -14,7 +14,7 @@ import java.nio.file.StandardOpenOption;
 
 
 public  class DataParser  implements  Closeable {
-   private static final Logger logger = LoggerFactory.getLogger(DataParser.class);
+   private static final Logger logger =  LogManager.getLogger(DataParser.class);
    protected String extension;
    protected String rootLocation;
    protected  String name;
@@ -25,12 +25,11 @@ public  class DataParser  implements  Closeable {
        return  rootLocation + name + extension;
     }
 
-    public void  saveToFile(byte[] bytes ) {
-        try (PrintStream printStream= new PrintStream(rootLocation +extension)){
+    public void  saveToFile(byte[] bytes ) throws IOException {
+        try (PrintStream printStream= new PrintStream(rootLocation +extension)) {
             printStream.write(bytes);
-        } catch (IOException e) {
-            this.exception = e;
         }
+
     }
 
    public  void writeBinary(InputStream inputStream) {

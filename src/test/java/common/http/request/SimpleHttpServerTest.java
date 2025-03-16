@@ -1,38 +1,37 @@
 package common.http.request;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import rest.mainServlet.CustomMediaType;
 import rest.mainServlet.SimpleHttpServer;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class SimpleHttpServerTest {
-    private static HttpServer server;
+    private static SimpleHttpServer simpleHttpServer;
     private static final int PORT = 8080;
     private static HttpClient client;
     @BeforeAll
     static void setUp() throws IOException {
-        server = HttpServer.create(new InetSocketAddress(PORT), 0);
-        server.createContext("/mime", new SimpleHttpServer(PORT).getMimeHandler());
-        server.setExecutor(null);
-        server.start();
+        simpleHttpServer = new SimpleHttpServer(PORT);
+        simpleHttpServer.start();
         client = HttpClient.newHttpClient();
     }
 
     @AfterAll
     static void tearDown() {
-        server.stop(0);
+        if(simpleHttpServer!=null) {
+            simpleHttpServer.stop();
+        }
     }
 
     @Test
@@ -40,7 +39,7 @@ public class SimpleHttpServerTest {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + PORT + "/mime"))
                 .GET()
-                .header("Content-Type", "application/xml") // Setting Content-Type
+                .header("Content-Type", CustomMediaType.APPLICATION_XML.name()) // Setting Content-Type
                 .POST(HttpRequest.BodyPublishers.ofString("<data>data</data>")) // JSON body
                 .build();
 
@@ -48,21 +47,20 @@ public class SimpleHttpServerTest {
 
         assertEquals(200, response.statusCode());
         System.out.println(" response body = "+ response.body());
-      //  assertEquals("Simple response!", response.body());
 
     }
     @Test
     void testHelloEndpoint() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:" + PORT + "/simple"))
+                .uri(URI.create("http://localhost:" + PORT + "/mime"))
                 .GET()
-                .header("Content-Type", "text/plain")
+                .header("Content-Type", CustomMediaType.TEXT_PLAIN.name())
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        assertEquals(200, response.statusCode());
-        assertEquals("Simple response!", response.body());
+        assertEquals(400, response.statusCode());
+        assertEquals("There is no handler for this type".trim(), response.body().trim());
 
     }
 }

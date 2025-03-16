@@ -1,9 +1,8 @@
 package httpHandlers.text;
 
+import com.sun.net.httpserver.HttpExchange;
 import httpHandlers.HTTPAbstractHandler;
-import jakarta.servlet.http.HttpServletRequest;
 import rest.mainServlet.CustomMediaType;
-
 
 import java.io.IOException;
 
@@ -16,8 +15,9 @@ public class JSONHandler  extends HTTPAbstractHandler {
     }
 
     @Override
-    public void proceed(HttpServletRequest request) throws IOException {
-        byte[] jSonStream= request.getInputStream().readAllBytes();
+    public void proceed(HttpExchange exchange) throws IOException {
+        byte[] jSonStream= exchange.getRequestBody().readAllBytes();
         String jsonData = new String(jSonStream);
     }
+
 }
