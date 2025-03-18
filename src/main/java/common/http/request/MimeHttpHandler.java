@@ -18,8 +18,12 @@ import java.util.Map;
 @Setter
 @Getter
 public class MimeHttpHandler implements HttpHandler {
-    private final static Logger LOGGER=  LogManager.getLogger(MimeHttpHandler.class);
-    private Map<CustomMediaType, HTTPAbstractHandler> httpHandlers;
+    private final static Logger LOGGER = LogManager.getLogger(MimeHttpHandler.class);
+    private Map<CustomMediaType, HTTPAbstractHandler> mapHandlers;
+
+    public MimeHttpHandler(Map<CustomMediaType, HTTPAbstractHandler> mapHandlers) {
+       this.mapHandlers=mapHandlers;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -38,7 +42,7 @@ public class MimeHttpHandler implements HttpHandler {
         if (contentType == null) {
             contentType = "";
         }
-        HTTPAbstractHandler httpHandler = httpHandlers.get(CustomMediaType.valueOf(contentType));
+        HTTPAbstractHandler httpHandler = mapHandlers.get(CustomMediaType.valueOf(contentType));
         String responseMessage;
         int responseCode;
         if (httpHandler == null) {

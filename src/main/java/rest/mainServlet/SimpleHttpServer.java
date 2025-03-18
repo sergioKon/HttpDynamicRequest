@@ -2,65 +2,50 @@ package rest.mainServlet;
 
 // Java Program to Set up a Basic HTTP Server
 
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import common.http.request.MimeHttpHandler;
-import httpHandlers.HTTPAbstractHandler;
 import lombok.Getter;
 import lombok.Setter;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import server.base.config.ServiceDispatcher;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
-
+@Getter @Setter
 public class SimpleHttpServer
 {
     private final static Logger LOGGER=  LogManager.getLogger(SimpleHttpServer.class);
-    private final int port;
-    private final int backlog;
+    private  int port;
+    private  int backlog;
 
-    @Getter @Setter
-    MimeHttpHandler mimeHttpHandler;
-    HttpServer server;
-    String address;
-    public SimpleHttpServer(String address, int port, int backlog)  {
+    private String address;
+    private HttpServer server;
+    public SimpleHttpServer(String address, int port)  {
         this.address= address;
         this.port = port;
-        this.backlog = backlog;
-        init();
-    }
-    public SimpleHttpServer(int port, int backlog)  {
-       this("0.0.0.0", port, backlog);
+
     }
     public SimpleHttpServer(int port)  {
-        this(port,0);
+       this("127.0.0.1", port);
     }
 
-    protected void init(){
-        ServiceDispatcher serviceDispatcher = ServiceDispatcher.getInstance();
-        Map<CustomMediaType, HTTPAbstractHandler> handlers = serviceDispatcher.getAll();
-        handlers.forEach((key, value) -> {
-            System.out.println("Media type  = " + key + ", HttpHandler =  " + value.getClass().getName());
-        });
-        
-        mimeHttpHandler =  new MimeHttpHandler();
-        mimeHttpHandler.setHttpHandlers(handlers);
-    }
-    public void start() throws IOException
-    {
-        server = HttpServer.create(new InetSocketAddress(address,port), backlog);
-        
-        server.createContext("/mime",mimeHttpHandler );
-        server.setExecutor(null); // Use the default executor
-        server.start();
-        LOGGER.info("Server is running on port {} ", port);
+    public void start(HttpHandler httpHandler) throws IOException {
+            server = HttpServer.create(new InetSocketAddress(address,port), backlog);
+            server.createContext("/mime",httpHandler );
+            server.setExecutor(null); // Use the default executor
+            server.start();
+            Timer timer = new Timer();
 
-    }
-
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    LOGGER.info("server: {} port{}", address, port );
+                }
+            }, 0, 10* 1000); // Initial delay: 0 ms, Interval: 10,000 ms (10 seconds)
+        }
 
     public void stop() {
        if(server!=null) {

@@ -2,10 +2,7 @@ package httpHandlers.binary;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import converters.GifParser;
-import converters.JSonParser;
-import converters.PgnParser;
-import converters.XMLParser;
+import converters.*;
 import httpHandlers.HTTPAbstractHandler;
 import rest.mainServlet.CustomMediaType;
 
@@ -15,7 +12,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 
-public class MultipartHandler extends HTTPAbstractHandler {
+public class MultipartFileHandler extends HTTPAbstractHandler {
 
     @Override
     protected void InitMediaType() {
@@ -33,7 +30,7 @@ public class MultipartHandler extends HTTPAbstractHandler {
             String[] parts = requestBody.split("--" + boundary);
             for (String part : parts) {
                 CustomMediaType mediaType = CustomMediaType.valueOf(part);
-                switch (mediaType) {
+               switch (mediaType) {
                     case APPLICATION_XML:
                         dataParser = new XMLParser();
                         break;
@@ -42,10 +39,10 @@ public class MultipartHandler extends HTTPAbstractHandler {
                         break;
                     case IMAGE_GIF:
                         dataParser = new GifParser();
-
+                        break;
                     case IMAGE_JPEG:
-                        dataParser = new GifParser();
-
+                        dataParser = new JpegParser();
+                        break;
                     case IMAGE_PNG:
                         dataParser = new PgnParser();
                 }
