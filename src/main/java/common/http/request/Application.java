@@ -2,6 +2,8 @@ package common.http.request;
 
 
 import httpHandlers.HTTPAbstractHandler;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -14,11 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+@Setter @Getter
 public class Application {
 	private static final Logger  LOGGER = LogManager.getLogger(Application.class);
 	private String address;
 	private Integer port;
-	MimeHttpHandler mimeHttpHandler;
+	private MimeHttpHandler mimeHttpHandler;
 	public static void main(String[] args) throws IOException {
         Application app = new Application();
 		app.readConfig();

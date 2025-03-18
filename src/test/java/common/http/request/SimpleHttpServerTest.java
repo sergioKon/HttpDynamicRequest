@@ -23,7 +23,9 @@ public class SimpleHttpServerTest {
     @BeforeAll
     static void setUp() throws IOException {
         simpleHttpServer = new SimpleHttpServer(PORT);
-        simpleHttpServer.start();
+        Application application= new Application();
+        application.setHandlers();
+        simpleHttpServer.start(application.getMimeHttpHandler());
         client = HttpClient.newHttpClient();
     }
 
