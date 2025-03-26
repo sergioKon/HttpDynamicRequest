@@ -6,3 +6,12 @@
 /.idea/vcs.xml
 /.idea/uiDesigner.xml
 /.idea/shelf/Uncommitted_changes_before_Checkout_at_13_03_2025_17_52_[Changes]1/shelved.patch
+/build/
+/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/8.8/executionHistory/executionHistory.lock
+/.gradle/file-system.probe
+/HttpDynamicRequest.bin
+/.gradle/buildOutputCleanup/outputFiles.bin
+/.gradle/8.8/fileHashes/resourceHashesCache.bin
+/.gradle/8.8/checksums/sha1-checksums.bin
