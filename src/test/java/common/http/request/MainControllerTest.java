@@ -15,7 +15,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.MimeType;
 import org.springframework.web.context.WebApplicationContext;
 import rest.mainServlet.ServletReader;
 
@@ -35,7 +34,7 @@ public class MainControllerTest {
     @Autowired
     WebApplicationContext webApplicationContext;
     @Autowired
-    private TestRestTemplate restTemplate;
+    TestRestTemplate restTemplate;
 
     @Test  void homeController() {
         ResponseEntity<String> response = restTemplate.getForEntity("/home", String.class);
@@ -68,7 +67,7 @@ public class MainControllerTest {
 
 
     @Test
-    public void testServletResponse() throws ServletException, IOException {
+    public void testServletResponse() throws  IOException {
         // Create a new instance of your servlet
         ServletReader servlet = new ServletReader();
 
