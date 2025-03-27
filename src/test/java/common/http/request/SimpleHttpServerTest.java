@@ -19,7 +19,7 @@ import java.net.http.HttpResponse;
 
 public class SimpleHttpServerTest {
     private static HttpServer server;
-    private static final int PORT = 8080;
+    private static final int PORT = 8000;
     private static HttpClient client;
     @BeforeAll
     static void setUp() throws IOException {

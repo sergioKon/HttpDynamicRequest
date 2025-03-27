@@ -13,7 +13,11 @@ public class CBorFormatClassTest {
             ObjectMapper objectMapper = new ObjectMapper(new CBORFactory());
 
             // Original data
-            MyData data = new MyData("John", 30, false);
+            MyData data = new MyData();
+            data.age=30;
+            data.is_student=false;
+            data.name= "John";
+           // MyData data = new MyData("John", 30, false);
 
             // Encode to CBOR
             byte[] cborData = objectMapper.writeValueAsBytes(data);
@@ -39,13 +43,6 @@ public class CBorFormatClassTest {
         public int age;
         public boolean is_student;
 
-
-
-        public MyData(String name, int age, boolean is_student) {
-            this.name = name;
-            this.age = age;
-            this.is_student = is_student;
-        }
 
         @Override
         public String toString() {

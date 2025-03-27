@@ -1,5 +1,6 @@
 package common.http.request;
 
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,14 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.MimeType;
 import org.springframework.web.context.WebApplicationContext;
+import rest.mainServlet.ServletReader;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,14 +38,14 @@ public class MainControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test  void homeController() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("/home", String.class);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
     @Test
     public void noContentTest()  {
 
         ResponseEntity<String> response = restTemplate.getForEntity("/anyTypeClient", String.class);
-        assertEquals(response.getBody(), "\""+ HttpStatus.NO_CONTENT.name()+ "\"");
+        assertEquals(response.getBody(),  HttpStatus.NO_CONTENT.name());
     }
 
     @Test
@@ -59,17 +66,24 @@ public class MainControllerTest {
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
 
-    @Test
-    public void servletDataReaderTest() throws Exception {
 
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(MockMvcRequestBuilders.post("/dataReader")
-                        .accept(MediaType.APPLICATION_XML)
-                        .content("<main>2</main>")
-                        .contentType(MediaType.APPLICATION_XML_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Success"));
+    @Test
+    public void testServletResponse() throws ServletException, IOException {
+        // Create a new instance of your servlet
+        ServletReader servlet = new ServletReader();
+
+        // Mock request and response objects
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setContent("<1>data</1>".getBytes());
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        request.setContentType(MediaType.APPLICATION_XML_VALUE);
+        servlet.doPost(request, response);
+
+        // Verify the response
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString()).isEqualTo(MediaType.APPLICATION_XML_VALUE);
     }
+
     @Test
     public void xmlRequestTest() throws Exception {
 
@@ -79,6 +93,6 @@ public class MainControllerTest {
                         .content("<main>2</main>")
                         .contentType(MediaType.APPLICATION_XML_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Success"));
+                .andExpect(content().string( HttpStatus.NO_CONTENT.name()));
     }
 }

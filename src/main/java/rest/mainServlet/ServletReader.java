@@ -11,8 +11,15 @@ import java.io.IOException;
 public class ServletReader  extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.getWriter().write("Hello from Custom Servlet -- ! "+ "'"+ request.getContentType()+ "'");
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String contextType;
+        if(request.getContentType()==null) {
+            contextType="null";
+        }
+        else {
+            contextType= request.getContentType();
+        }
+        response.getWriter().write(contextType);
     }
 }
 
