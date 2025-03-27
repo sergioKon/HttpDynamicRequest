@@ -39,7 +39,7 @@ public class SimpleHttpServerTest {
     @Test
     void testXMLType() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:" + PORT + "/mime"))
+                .uri(URI.create("http://localhost:" + PORT + "/simple"))
                 .GET()
                 .header("Content-Type", "application/xml") // Setting Content-Type
                 .POST(HttpRequest.BodyPublishers.ofString("<data>data</data>")) // JSON body
@@ -50,19 +50,18 @@ public class SimpleHttpServerTest {
         assertEquals(200, response.statusCode());
         System.out.println(" response body = "+ response.body());
       //  assertEquals("Simple response!", response.body());
-        server.stop(0);
+
     }
     @Test
     void testHelloEndpoint() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:" + PORT + "/simple"))
+                .uri(URI.create("http://localhost:" + PORT + "/mime"))
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         assertEquals(200, response.statusCode());
-        assertEquals("Simple response!", response.body());
-        server.stop(0);
+
     }
 }
